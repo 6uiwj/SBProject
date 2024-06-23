@@ -8,8 +8,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class HelloController {
     @ResponseBody
     @GetMapping("/hello")
-    public String Hello () {
+    public String Hello() {
 
         return "hello Spring Boot Board";
     }
+
+    //1장 예제 01
+    @ResponseBody
+    @GetMapping("/jump")
+    public String jump() {
+        return "점프 투 스트링 부트";
+    }
+
+
 }
