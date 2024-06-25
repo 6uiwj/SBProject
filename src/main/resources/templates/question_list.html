@@ -1,0 +1,19 @@
+<html xmlns:th="http://www.tymeleaf.org">
+<table>
+    <thead>
+        <tr>
+            <th>제목</th>
+            <th>작성일시</th>
+        </tr>
+    </thead>
+    <tbody>
+    <!--Model 객체의 questionList에 저장된 데이터를 하나씩 꺼내
+        question 변수에 대입한 후 questionList 개수 만큼 반복하여 출력-->
+        <tr th:each="question : ${questionList}">
+            <!--question 객체의 subject 출력-->
+            <td th:text="${question.subject}"></td>
+            <!--question 객체의 createDate 출력-->
+            <td th:text="${question.createDate}"></td>
+        </tr>
+    </tbody>
+</table>
