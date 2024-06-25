@@ -1,10 +1,9 @@
-package com.example.sbb;
+package com.example.sbb.question;
 
+import com.example.sbb.answer.Answer;
 import jakarta.persistence.*;
-import lombok.Cleanup;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 import java.time.LocalDateTime;
 import java.util.List;

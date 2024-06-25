@@ -1,10 +1,19 @@
 package com.example.sbb;
 
+import com.example.sbb.answer.Answer;
+import com.example.sbb.answer.AnswerRepository;
+import com.example.sbb.question.Question;
+import com.example.sbb.question.QuestionRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 class SbbApplicationTests {
@@ -12,6 +21,10 @@ class SbbApplicationTests {
 	@Autowired //질문 엔티티생성 시 questionRepository가 필요하므로 의존주입
 	private QuestionRepository questionRepository;
 
+	@Autowired
+	private AnswerRepository answerRepository;
+
+	@Transactional
 	@Test
 	void testJpa() {
 		/*
@@ -58,10 +71,81 @@ class SbbApplicationTests {
 
 		 */
 
+		/*
 		//findBySubjectAndContent 메서드
 		Question q = this.questionRepository.findBySubjectAndContent("sbb가 무엇인가요?", "sbb에 대해서 알고 싶습니다.");
 		assertEquals(1,q.getId());
 
-		}
+		 */
 
+		/*
+		//findBySubjectLike 메서드
+		List<Question> qList = this.questionRepository.findBySubjectLike("sbb%");
+		Question q = qList.get(0); //List 중 0번째 데이터를 가져옴
+		assertEquals("sbb가 무엇인가요?",q.getSubject());
+
+
+		 */
+
+		/*
+		//그만 좀 해 제바ㅏ아아알
+		Optional<Question> oq = this.questionRepository.findById(1); //id가 1인 데이터 가져오기
+		assertTrue(oq.isPresent()); //데이터가 존재하는 지 확인 (존재하지 않으면 오류발생)
+		//oq가 존재함을 확인 하고, get으로 가져온 다음, Question 객체로 변환해서 담음
+		Question q = oq.get();
+		q.setSubject("수정된 제목"); //제목 변경
+		this.questionRepository.save(q); //저장
+
+		 */
+
+		/*
+		//질문 삭제하기
+		//questionRepository.count() : 테이블 행의 개수 리턴
+		assertEquals(2, this.questionRepository.count());
+		Optional<Question> oq = this.questionRepository.findById(1); //Id가 1인 데이터 반환
+		assertTrue(oq.isPresent()); //존재여부 확인
+		Question q = oq.get(); //Question 객체로 변경
+		this.questionRepository.delete(q); //데이터 삭제
+		assertEquals(1, this.questionRepository.count()); //삭제 후 테이블에 행이 1개인지 확인
+
+		 */
+
+		/*
+		//답변 생성하기
+		//답변 생성을 위해 질문 데이터를 먼저 가져옴
+		Optional<Question> oq = this.questionRepository.findById(2); //ID가 2인 데이터 가져옴
+		assertTrue(oq.isPresent()); //데이터가 존재하는지 확인
+		Question q = oq.get(); //존재하면 Question 객체로 변환
+
+		Answer a = new Answer(); //Answer 객체 생성
+		a.setContent("네 자동으로 생성됩니다."); //답변 등록
+		a.setQuestion(q); //답변 엔티티의 question 속성에 질문 데이터를 대입해 답변 데이터 생성
+		a.setCreateDate(LocalDateTime.now()); //답변 시간 저장
+		this.answerRepository.save(a); //저장
+
+
+		 */
+
+		/*
+		//답변 데이터 조회하기
+		Optional<Answer> oa = this.answerRepository.findById(1); //Id가 1인 답변 데이터 조회
+		assertTrue(oa.isPresent()); //존재하는지?
+		Answer a = oa.get(); //Answer 객체고 변환
+		assertEquals(2, a.getQuestion().getId()); //이 답변이 달린 질문 데이터의 Id가 2인지 확인
+
+		 */
+
+		//답변 데이터를 통해 질문 데이터 찾기 vs 질문 데이터를 통해 답변 데이터 찾기
+		Optional<Question> oq = this.questionRepository.findById(2);
+		assertTrue(oq.isPresent());
+		Question q = oq.get();
+
+		List<Answer> answerList = q.getAnswerList();
+
+		assertEquals(1,answerList.size());
+		assertEquals("네 자동으로 생성됩니다." , answerList.get(0).getContent());
+
+
+
+	}
 }
