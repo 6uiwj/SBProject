@@ -1,6 +1,9 @@
-package com.example.sbb;
+package com.example.sbb.question;
 
+import com.example.sbb.question.Question;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
 
 /**
  * JpaRepository<엔티티, 기본키>
@@ -18,4 +21,7 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
 
     //결과가 여러 건인 경우 리턴타입을 List로 작성
     //ex: List<Question> findBy.....(   , ..  )..
+
+    //SELECT * FROM QUESTION WHERE SUBJECT LIKE '~';
+    List<Question> findBySubjectLike(String subject);
 }
