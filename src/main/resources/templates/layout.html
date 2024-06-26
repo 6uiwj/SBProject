@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<!--모든 템플릿이 상속해야하는 템플릿-->
+<html xmlns:th="www.thymeleaf.org" lang="ko">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!--Bootstrap CSS-->
+    <link rel = "stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
+    <title>Hello, sbb!</title>
+</head>
+<body>
+<!--기본 템플릿 안에 삽입될 내용 S-->
+    <th:block layout:fragment="content"></th:block>
+<!--기본 템플릿 안에 삽입될 내용 E-->
+
+</body>
+</html>
