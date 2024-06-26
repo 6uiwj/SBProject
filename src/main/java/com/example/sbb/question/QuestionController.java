@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
-
+@RequestMapping("/question") //프리픽스(URL 접두사)
 @Controller
 @RequestMapping("/question") //프리픽스 설정 (URL 접두사)
 @RequiredArgsConstructor //final이 붙은 속성을 포험하는 생성자를 자동으로 만들어 줌 (자동의존주입 - 생성자 방식)
@@ -29,6 +29,12 @@ public class QuestionController {
         return "question_list";
     }
 
+    /**
+     * id에 해당하는 질문의 상세페이지 템플릿 가져오기
+     * @param model
+     * @param id
+     * @return
+     */
     //@PathVariable : 경로변수? URL의 {id}를 변수로 값을 주기 위해서
     // @PathVariable("A")와 @GetMapping(value = "/../../{A}")에서 A의 이름이 동일해야 함
     @GetMapping(value = "/detail/{id}")
