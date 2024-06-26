@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
-@RequestMapping("/question") //프리픽스(URL 접두사)
 @Controller
 @RequestMapping("/question") //프리픽스 설정 (URL 접두사)
 @RequiredArgsConstructor //final이 붙은 속성을 포험하는 생성자를 자동으로 만들어 줌 (자동의존주입 - 생성자 방식)
