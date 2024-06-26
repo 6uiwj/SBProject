@@ -31,6 +31,10 @@ public class QuestionController {
     // @PathVariable("A")와 @GetMapping(value = "/../../{A}")에서 A의 이름이 동일해야 함
     @GetMapping(value = "/question/detail/{id}")
     public String detail(Model model, @PathVariable("id") Integer id) {
+        //Service를 통해 지정한 id에 해당하는 질문을 가져온다.
+        Question question = this.questionService.getQuestion(id);
+        //model 객체에 question이라는 이름으로 조회한 질문 저장!
+        model.addAttribute("question", question);
         return "question_detail";
     }
 
