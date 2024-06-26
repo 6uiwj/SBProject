@@ -11,7 +11,14 @@
         question 변수에 대입한 후 questionList 개수 만큼 반복하여 출력-->
         <tr th:each="question : ${questionList}">
             <!--question 객체의 subject 출력-->
-            <td th:text="${question.subject}"></td>
+            <!--<td th:text="${question.subject}"></td> -->
+            <td>
+                <!-- @{~} : URL 입력식 -->
+                <!--문자열과 자바 객체의 값을 연결할 때에는 '| |' 로 감싸줘야 함-->
+                <!--링크 URL : /question/detail/해당 질문의 id 값-->
+                <a th:href="@{|/question/detail/${question.id}|}"
+                   th:text="${question.subject}"></a>
+            </td>
             <!--question 객체의 createDate 출력-->
             <td th:text="${question.createDate}"></td>
         </tr>
