@@ -1,10 +1,51 @@
-<html xmlns:th="http://www.tymeleaf.org">
-<h1 th:text="${question.subject}"></h1>
-<div th:text="${question.content}"></div>
-<!--답변 등록 창과 등록 버튼 생성-->
-<!--답변 등록시 URL : /answer/create/질문데이터 번호-->
-<form th:action="@{|/answer/create/${question.id}|}" method="post">
-    <textarea name="content" id="content" rows="15"></textarea>
-    <input type="submit" value="답변 등록">
-</form>
+<html xmlns:th="http://www.tymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}"> <!--레이아웃으로 사용할 부모템플릿 지정(layout.html)--><link rel = "stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
+
+<div layout:fragment="content" class = "container my-3">
+    <!--질문-->
+    <h2 class="border-bottom py-2" th:text="${question.subject}"></h2>
+    <div class="card my-3">
+        <div class = "card-body">
+            <!--style - "white-space: pre=line;" 사용자가 입력한대로 줄바꿈이 적용-->
+            <div class = "card-text" style="white-space: pre-line;"
+                 th:text="${question.content}"></div>
+            <div class="d-flex justify-content-end">
+                <div class="badge bg-light text-dark p-2 text-start">
+                   <div th:text="${#temporals.format(question.createDate,
+                        'yyyy-MM-dd HH:mm')}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--답변 개수 표시-->
+        <!--#lists.size: 타임리프에서 제공하는 기능으로 해당 객체의 길이 반환
+                -> answerList의 데이터 개수 반환 -->
+        <h5 class = "border-bottom my-3 py-2"
+            th:text="|${#lists.size(question.answerList)}개의 답변이 있습니다.|"></h5>
+
+        <!--답변 반복 시작-->
+        <div class = "card my-3" th:each="answer : ${question.answerList}">
+            <div class="card-body">
+                <div class="card-text" style="white=space: pre-line;"
+                     th:text="${answer.content}"></div>
+                <div class="d-flex justify-content-end">
+                    <div class="badge bg-light text-dark p-2 text-start">
+                        <div th:text="${#temporals.format(answer.createDate,
+                            'yyyy-MM-dd HH:mm')}"></div>
+                    </div>
+                </div>
+             </div>
+        </div>
+    <!--답변 반복 끝-->
+
+    <!--답변 등록 창과 등록 버튼 생성-->
+    <!--답변 등록시 URL : /answer/create/질문데이터 번호-->
+    <form th:action="@{|/answer/create/${question.id}|}" method="post"
+        class="my-3">
+        <textarea name="content" id="content" rows="15" class="form-control"></textarea>
+        <input type="submit" value="답변 등록" class="btn btn-primary my-2">
+    </form>
+</div>
 </html>
