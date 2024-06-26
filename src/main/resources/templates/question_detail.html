@@ -1,4 +1,10 @@
 <html xmlns:th="http://www.tymeleaf.org">
 <h1 th:text="${question.subject}"></h1>
 <div th:text="${question.content}"></div>
+<!--답변 등록 창과 등록 버튼 생성-->
+<!--답변 등록시 URL : /answer/create/질문데이터 번호-->
+<form th:action="@{|/answer/create/${question.id}|}" method="post">
+    <textarea name="content" id="content" rows="15"></textarea>
+    <input type="submit" value="답변 등록">
+</form>
 </html>
