@@ -1,9 +1,14 @@
 package com.example.sbb.question;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 @Controller
@@ -45,12 +50,14 @@ public class QuestionController {
 
     /**
      * 질문 등록 URL 템플릿 연결
+     * @param questionForm 템플릿에 th:object="${questionForm}"을 추가했으므로 매개변수 필요
      * @return
      */
     @GetMapping("/create")
-    public String questionCreate() {
+    public String questionCreate(QuestionForm questionForm) {
         return "question_form";
     }
+
 
     /**
      * 질문 등록(저장) 메서드 -> 메서드 오버로딩
@@ -60,11 +67,32 @@ public class QuestionController {
      *                ReauestParam의 value값이 동일해야 함
      * @return
      */
+    /*
     @PostMapping("/create")
     public String questionCreate(@RequestParam(value="subject") String subject,
                                  @RequestParam(value="content") String content) {
         this.questionService.create(subject,content);
         return "redirect:/question/list"; //질문 저장 후 질문 목록으로 이동
+    }
+    */
+
+    /**
+     * 질문 등록(저장) 메서드 -> 메서드 오버로딩
+     * @param questionForm subject, content를 매개변수로 직접 받는 것이 아닌 Form으로 바인딩
+     *                     폼의 바인딩 기능: subject, content 항목을 지닌 폼이 전송되면 QuestionForm의 subject, content 속성이
+     *                     자동으로 바인딩(이름이 동일하면 함께 연결되어 묶임)
+     * @param bindingResult @Valid 애너테이션으로 검증이 수행된 결과를 의미하는 객체(항상 @Valid 매개변수 뒤에 위치)
+     * @return
+     */
+    //@Valid : QuestionForm의 검증 기능 동작(@Size @NotEmpty 등..)
+    @PostMapping("/create")
+    public String questionCreate(@Valid QuestionForm questionForm, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) { //검증 결과에 error가 있으면 다시 작성 화면으로 돌아감
+            return "question_form";
+        }
+        //오류가 없으면 등록
+        this.questionService.create(questionForm.getSubject(), questionForm.getContent());
+        return "redirect:/question/list";
     }
 
 }

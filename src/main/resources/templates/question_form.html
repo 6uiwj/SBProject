@@ -3,7 +3,13 @@
     layout:decorate="~{layout}">
 <div layout:fragment="content" class="container">
     <h5 class="my-3 border-bottom pb-2">질문 등록</h5>
-    <form th:action="@{/question/create}" method="post">
+    <!--th:object로 form의 입력 항목들이 QuestionForm과 연결된다는 것을 타임리프에 알려줌 -->
+    <form th:action="@{/question/create}" th:object="${questionForm}" method="post">
+        <!--fields.hasAnyErrors가 true이면 검증 실패 -->
+        <!--fields.allErrors()로 검증 실패 이유 확인-->
+        <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+            <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+        </div>
         <div class="mb-3">
             <!--제목 입력박스-->
             <label for = "subject" class="form-label">제목</label>
