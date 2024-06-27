@@ -3,9 +3,7 @@ package com.example.sbb.question;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @Controller
@@ -43,6 +41,30 @@ public class QuestionController {
         //model 객체에 question이라는 이름으로 조회한 질문 저장!
         model.addAttribute("question", question);
         return "question_detail";
+    }
+
+    /**
+     * 질문 등록 URL 템플릿 연결
+     * @return
+     */
+    @GetMapping("/create")
+    public String questionCreate() {
+        return "question_form";
+    }
+
+    /**
+     * 질문 등록(저장) 메서드 -> 메서드 오버로딩
+     * @param subject (화면에서 입력한 제목)
+     * @param content (화면에서 입력한 내용)
+     *                -> question_form.html에서 입력한 subject, cntent의 내용과
+     *                ReauestParam의 value값이 동일해야 함
+     * @return
+     */
+    @PostMapping("/create")
+    public String questionCreate(@RequestParam(value="subject") String subject,
+                                 @RequestParam(value="content") String content) {
+        this.questionService.create(subject,content);
+        return "redirect:/question/list"; //질문 저장 후 질문 목록으로 이동
     }
 
 }
