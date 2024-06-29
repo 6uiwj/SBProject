@@ -13,12 +13,12 @@
         <div class="mb-3">
             <!--제목 입력박스-->
             <label for = "subject" class="form-label">제목</label>
-            <input type="text" name="subject" id="subject" class="form-control">
+            <input type="text" id="subject" th:field="*{subject}" class="form-control">
         </div>
         <div class="mb-3">
             <!--내용 입력박스-->
             <label for = "content" class="form-label">내용</label>
-            <textarea name="content" id="content" class="form-control"
+            <textarea id="content" th:field="*{content}" class="form-control"
                       rows="10"></textarea>
         </div>
         <input type="submit" value="저장하기" class="btn btn-primary my-2">
