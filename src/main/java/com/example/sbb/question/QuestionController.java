@@ -1,5 +1,6 @@
 package com.example.sbb.question;
 
+import com.example.sbb.answer.AnswerForm;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -40,7 +41,7 @@ public class QuestionController {
     //@PathVariable : 경로변수? URL의 {id}를 변수로 값을 주기 위해서
     // @PathVariable("A")와 @GetMapping(value = "/../../{A}")에서 A의 이름이 동일해야 함
     @GetMapping(value = "/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Integer id) {
+    public String detail(Model model, @PathVariable("id") Integer id, AnswerForm answerForm) {
         //Service를 통해 지정한 id에 해당하는 질문을 가져온다.
         Question question = this.questionService.getQuestion(id);
         //model 객체에 question이라는 이름으로 조회한 질문 저장!
