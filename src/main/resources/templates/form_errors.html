@@ -1,0 +1,6 @@
+<!--th:fragment="formErrorsFragment : 다른 템플릿에서 이 div영역을
+    사용할 수 있도록 이름 설정-->
+<div th:fragment="formErrorsFragment" class="alert alert-danger"
+     role="alert" th:if="${#fields.hasAnyErrors()}">
+    <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+</div>
