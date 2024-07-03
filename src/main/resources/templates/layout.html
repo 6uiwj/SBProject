@@ -11,6 +11,27 @@
     <title>Hello, sbb!</title>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">SBB</a> <!--SBB를 클릭하면 메인페이지로 이동 -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!--화면 크기에 따라 내비게이션 바의 메뉴 노출을 관리 -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!--네비게이션 바의 메뉴 오른쪽과 왼쪽 여백 지정-->
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <!--'로그인' 텍스트 표시, 이를 클릭하여 이동할 페이지 설정-->
+                    <a class="nav-link" href="#">로그인</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 <!--기본 템플릿 안에 삽입될 내용 S-->
     <th:block layout:fragment="content"></th:block>
 <!--기본 템플릿 안에 삽입될 내용 E-->
