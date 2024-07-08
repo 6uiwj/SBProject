@@ -1,22 +1,25 @@
 package com.example.sbb;
 
-import com.example.sbb.answer.AnswerRepository;
-import com.example.sbb.question.QuestionRepository;
+import com.example.sbb.question.QuestionService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 class SbbApplicationTests {
 
+	@Autowired
+	private QuestionService questionService; //3-02 테스트데이터 만들기
+
+	/*
 	@Autowired //질문 엔티티생성 시 questionRepository가 필요하므로 의존주입
 	private QuestionRepository questionRepository;
 
 	@Autowired
 	private AnswerRepository answerRepository;
+	 */
 
-	@Transactional
+	//@Transactional
 	@Test
 	void testJpa() {
 		/*
@@ -141,6 +144,15 @@ class SbbApplicationTests {
 
 		 */
 
+		/**
+		 * 3-02 테스트 데이터 만들기
+		 */
+		for (int i = 1; i <= 300; i++) {
+			//[%03d]: 제목에 번호를 부여 -> 세 자리 포맷, 빈 자리에 왼쪽부터 0을 채움 (001, 013, 213...)
+			String subject = String.format("테스트 데이터입니다:[%03d]", i);
+			String content = "내용 없음 ";
+			this.questionService.create(subject, content);
+		}
 
 	}
 }
