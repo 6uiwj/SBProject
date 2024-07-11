@@ -16,8 +16,9 @@
     </thead>
     <tbody>
     <!--Model 객체의 questionList에 저장된 데이터를 하나씩 꺼내
-        question 변수에 대입한 후 questionList 개수 만큼 반복하여 출력-->
-        <tr th:each="question, loop : ${questionList}">
+        question 변수에 대입한 후 questionList 개수 만큼 반복하여 출력
+        -> 컨트롤러 model 객체에 questionList를 paging으로 변경하였으므로  ${questionList}를 ${paging}으로 변경 -->
+        <tr th:each="question, loop : ${paging}">
             <!--loop.count : questionList의 항목을 th:each로 반복할 때 현재의 순서를 나타냄-->
             <td th:text="${loop.count}"></td>
             <!--question 객체의 subject 출력-->
