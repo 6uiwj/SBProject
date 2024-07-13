@@ -40,16 +40,23 @@
     <!--페이징 처리 시작-->
     <div th:if="${!paging.isEmpty()}">
         <ul class="pagination justify-content-center">
+            <!--이전 페이지가 없을 경우 '이전'링크 비활성화 -->
             <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
                 <a class="page-link" th:href="@{|?page=${paging.number-1}|}">
                     <span>이전</span>
                 </a>
             </li>
+            <!--전체 페이지 수 만큼 반복하면서 이전, 다음 링크 생성, 요청 페이지가 현재 페이지와 같을 경우 페이지 링크 파란색 표시-->
+            <!--#numbers.sequence(시작번호, 끝번호) : 시작 번호부터 끝 번호까지 정해진 범위만큼 반복(타임리프 기능)-->
+            <!--if문: 페이지 표시 제한 기능을 구현, 현재 페이지 기준으로 좌우 5개씩 페이지 번호 표시
+                반복문 내에 표시되는 페이지가 현재 페이지를 의미하는 paging.number보다 5만큼 작거나 큰 경우에만 표시 -->
             <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
-                th:classappend="${page==paging.number} ? 'active'"class="page-item">
+                th:if="${page >= paging.number-5 and page <= paging.number+5}"
+                th:classappend="${page==paging.number} ? 'active'" class="page-item">
                 <a th:text="${page}" class="page-link"
                 th:href="@{|?page=${page}|}"></a>
             </li>
+            <!--다음 페이지가 없을 경우 '다음' 링크 비활성화 -->
             <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
                 <a class = "page-link" th:href="@{|?page=${paging.number+1}|}">
                     <span>다음</span>
