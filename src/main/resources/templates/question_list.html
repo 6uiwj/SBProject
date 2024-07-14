@@ -32,6 +32,12 @@
                 <!--링크 URL : /question/detail/해당 질문의 id 값-->
                 <a th:href="@{|/question/detail/${question.id}|}"
                    th:text="${question.subject}"></a>
+                <!--if 답변 개수가 0보다 크다면, 답변 개수 표시(lists.size)-->
+                <span class="text-danger small ms-2"
+                      th:if="${#lists.size(question.answerList) > 0}"
+                      th:text="${#lists.size(question.answerList)}">
+
+                </span>
             </td>
             <!--question 객체의 createDate 출력-->
             <!--#temporal.format(날짜 객체, 날짜 포맷) : 타임리프 날짜형식-->
