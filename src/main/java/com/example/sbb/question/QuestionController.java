@@ -16,7 +16,15 @@ public class QuestionController {
     //private final QuestionRepository questionRepository; //서비스 생성 전
     private final QuestionService questionService;
 
-    //url에 매개변수로 page가 전달되지 않은 경우 기본값은 0이 되도록 설정
+    /**
+     * 목록 조회 메서드
+     * @param model
+     * @param page @RequestParam : 웹 요청 파라미터를 컨트롤러 메서드의 매개변수로 바인딩
+     *                             주로 http 요청의 쿼리 파라미터나 폼 데이터를 가져오는데 사용
+     *                              ex) http://localhost..../question/list?page=0 에서 page 값을 가져 옴
+     *                  defaultValue = "0" : url에 매개변수로 page가 전달되지 않은 경우 기본값은 0이 되도록 설정
+     * @return
+     */
     @GetMapping("/list")
     public String list(Model model, @RequestParam(value="page", defaultValue = "0") int page) { //데이터를 저장할 Model 객체를 매개변수로 지정
         /**

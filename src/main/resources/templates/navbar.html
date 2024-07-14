@@ -1,7 +1,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
+<!--내비게이션 바 공통 템플릿-->
 <nav th:fragment="navbarFragment" class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
     <div class="container-fluid">
+        <!--'SBB'를 클릭하면 메인 페이지("/")로 이동하도록 설정-->
         <a class="navbar-brand" href="/">SBB</a>
+        <!-- data-bs-toggle="collapse" : 부트스트랩 속성, 내비게이션 축소 및 확장
+           data-bs-target : 토글 될 대상(축소/확장 대상) 요소 지정 -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
            data-bs-target="#navbarSupportedContent"
            aria-controls="navbarSupportedContent" aria-expanded="false"

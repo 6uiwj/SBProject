@@ -26,6 +26,6 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
     //SELECT * FROM QUESTION WHERE SUBJECT LIKE '~';
     List<Question> findBySubjectLike(String subject);
 
-    //페이징 구현
+    //페이징 구현 - Pageable 객체를 입력받아 Page<Question> 타입 객체 리턴
     Page<Question> findAll(Pageable pageable);
 }
