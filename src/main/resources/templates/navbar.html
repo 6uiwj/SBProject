@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <!--내비게이션 바 공통 템플릿-->
 <nav th:fragment="navbarFragment" class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
     <div class="container-fluid">
@@ -17,8 +17,12 @@
             <!--네비게이션 바의 메뉴 오른쪽과 왼쪽 여백 지정-->
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <!--'로그인' 텍스트 표시, 이를 클릭하여 이동할 페이지 설정-->
-                    <a class="nav-link" href="#">로그인</a>
+                    <!--로그인 되지 않은 경우 '로그인' 링크 표시-->
+                    <a class="nav-link" sec:authorize="isAnonymous()"
+                       th:href="@{/user/login}">로그인</a>
+                    <!--로그인 상태일 경우 '로그아웃' 링크 표시-->
+                    <a class="nav-link" sec:authorize="isAuthenticated()"
+                       th:href="@{/user/logout}">로그아웃</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/user/signup}">회원 가입</a>
