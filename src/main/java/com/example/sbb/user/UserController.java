@@ -58,4 +58,14 @@ public class UserController {
         //서비스를 통해 저장
         return "redirect:/";
     }
+
+    /**
+     * 로그인 URL 매핑, login_form 템플릿 출력
+     * 실제 로그인 과정(PostMapping)은 스프링 시큐리티가 대신 처리하므로 우리가 직접 구현할 필요 없다.
+     * @return
+     */
+    @GetMapping("/login")
+    public String login() {
+        return "login_form";
+    }
 }
