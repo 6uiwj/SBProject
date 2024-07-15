@@ -27,7 +27,10 @@ public class SecurityConfig {
                 .headers((headers) -> headers //H2 콘솔 화면 깨짐 처리
                         .addHeaderWriter(new XFrameOptionsHeaderWriter( //URL 요청 시 X-Frame-Options 헤더를 DENY 대신 SAMEORIGIN으로 설정
                                 XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN // -> 프레임에 포함된 웹 페이지가 동일한 사이트에서 제공할 때에만 사용 허락
-                        )));
+                        )))
+                .formLogin((formLogin) -> formLogin //로그인 URL, 로그인 성공시 URL 설정
+                        .loginPage("/user/login")
+                        .defaultSuccessUrl("/"));
         return http.build();
     }
 
