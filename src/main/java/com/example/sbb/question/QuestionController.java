@@ -6,6 +6,7 @@ import com.example.sbb.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -65,6 +66,7 @@ public class QuestionController {
      * @param questionForm 템플릿에 th:object="${questionForm}"을 추가했으므로 매개변수 필요
      * @return
      */
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
     public String questionCreate(QuestionForm questionForm) {
         return "question_form";
@@ -97,6 +99,7 @@ public class QuestionController {
      * @return
      */
     //@Valid : QuestionForm의 검증 기능 동작(@Size @NotEmpty 등..)
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
     public String questionCreate(@Valid QuestionForm questionForm, BindingResult bindingResult, Principal principal) {
         if (bindingResult.hasErrors()) { //검증 결과에 error가 있으면 다시 작성 화면으로 돌아감

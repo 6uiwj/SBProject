@@ -6,6 +6,7 @@ import com.example.sbb.user.SiteUser;
 import com.example.sbb.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,6 +34,7 @@ public class AnswerController {
      * @param principal 현재 로그인한 사용자의 정보를 알려줌
      * @return
      */
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/create/{id}") // /answer/create/{id} URL 요청 시 createAnswer 메서드가 호출되도록 post 매핑
     public String createAnswer(Model model, @PathVariable("id") Integer id, @Valid AnswerForm answerForm,
                                BindingResult bindingResult, Principal principal) {
