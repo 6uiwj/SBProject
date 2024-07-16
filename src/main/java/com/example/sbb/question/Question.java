@@ -1,6 +1,7 @@
 package com.example.sbb.question;
 
 import com.example.sbb.answer.Answer;
+import com.example.sbb.user.SiteUser;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,4 +31,7 @@ public class Question {
     //  -> 참조 엔티티의 속성명 (Answer엔티티의 question 필드)
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
     private List<Answer> answerList; //Answer 객체들
+
+    @ManyToOne //한명이 여러 개 질문 작성 가능
+    private SiteUser author;
 }
