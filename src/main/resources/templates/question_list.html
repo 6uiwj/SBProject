@@ -8,17 +8,18 @@
 <div layout:fragment="content" class = "container my-3">
 <table class = "table">
     <thead class="table-dark">
-        <tr>
+        <tr class="text-center">
             <th>번호</th>
-            <th>제목</th>
-            <th>작성일시</th>
+            <th style="width:50%">제목</th>
+            <th>글쓴이</th>
+            <th>작성 일시</th>
         </tr>
     </thead>
     <tbody>
     <!--Model 객체의 questionList에 저장된 데이터를 하나씩 꺼내
         question 변수에 대입한 후 questionList 개수 만큼 반복하여 출력
         -> 컨트롤러 model 객체에 questionList를 paging으로 변경하였으므로  ${questionList}를 ${paging}으로 변경 -->
-        <tr th:each="question, loop : ${paging}">
+        <tr class="text-center" th:each="question, loop : ${paging}">
             <!--loop.count : questionList의 항목을 th:each로 반복할 때 현재의 순서를 나타냄
             <td th:text="${loop.count}"></td> -->
             <!--게시물 번호 공식 적용하기
@@ -26,7 +27,7 @@
             <td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
             <!--question 객체의 subject 출력-->
             <!--<td th:text="${question.subject}"></td> -->
-            <td>
+            <td class="text-start">
                 <!-- @{~} : URL 입력식 -->
                 <!--문자열과 자바 객체의 값을 연결할 때에는 '| |' 로 감싸줘야 함-->
                 <!--링크 URL : /question/detail/해당 질문의 id 값-->
@@ -39,6 +40,9 @@
 
                 </span>
             </td>
+            <!--글쓴이가 있을 경우 글쓴이 표시-->
+            <td><span th:if="${question.author !=null}"
+            th:text="${question.author.username}"></span></td>
             <!--question 객체의 createDate 출력-->
             <!--#temporal.format(날짜 객체, 날짜 포맷) : 타임리프 날짜형식-->
             <td th:text="${#temporals.format(question.createDate,
