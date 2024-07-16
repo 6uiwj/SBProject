@@ -27,4 +27,6 @@ public class Answer {
 
     @ManyToOne //한 사람이 여러 개 답변 작성 가능
     private SiteUser author;
+
+    private LocalDateTime modifyDate; //수정 일시
 }

@@ -1,5 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
       layout:decorate="~{layout}"> <!--레이아웃으로 사용할 부모템플릿 지정(layout.html)--><link rel = "stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
 
 <div layout:fragment="content" class = "container my-3">
@@ -12,6 +12,11 @@
                  th:text="${question.content}"></div>
             <div class="d-flex justify-content-end">
                 <div class="badge bg-light text-dark p-2 text-start">
+                    <!--글쓴이가 존재하면 글쓴이를 표시-->
+                    <div class="mb-2">
+                        <span th:if="${question.author !=null}"
+                              th:text="${question.author.username}"></span>
+                    </div>
                    <div th:text="${#temporals.format(question.createDate,
                         'yyyy-MM-dd HH:mm')}"></div>
                     </div>
@@ -32,9 +37,26 @@
                      th:text="${answer.content}"></div>
                 <div class="d-flex justify-content-end">
                     <div class="badge bg-light text-dark p-2 text-start">
+                        <div class="mb-2">
+                            <!--글쓴이가 있으면 글쓴이 표시-->
+                            <span th:if="${answer.author !=null}"
+                                  th:text="${answer.author.username}"></span>
+                        </div>
                         <div th:text="${#temporals.format(answer.createDate,
                             'yyyy-MM-dd HH:mm')}"></div>
                     </div>
+                </div>
+                <div class="my-3">
+                    <!--질문 id별 수정 링크, 로그인 상태일 때
+                        질문자가 존재하고, 로그인한 ID와 질문자 ID가 일치한다면 수정 출력
+                        #authentication.getPrincipal() : 타임리프에서 스프링 시큐리티와 함께 사용하는 표현식 -->
+                    <a th:href="@{|/question/modify/${question.id}|}"
+                       class="btn btn-smbtn-outline-secondary"
+                       sec:authorize="isAuthenticated()"
+                       th:if="${question.author != null and #authentication.
+                        getPrincipal().getUsername() == question.author.username}"
+                       th:text="수정"></a>
+                </div>
                 </div>
              </div>
         </div>
@@ -51,7 +73,15 @@
         -->
         <!--공통 에러 템플릿으로 대체 th:replace-->
         <div th:replace="~{form_errors :: formErrorsFragment}"></div>
-        <textarea th:field="*{content}" rows="15" class="form-control"></textarea>
+
+        <!--답변 입력 칸 - 미 로그인 시 입력불가
+            로그인 상태 체크
+            sec:authorize="isAnonymous()" - 현재 로그아웃 상태
+            sec:authorize="isAuthentixated()" - 현재 로그인 상태 -->
+        <textarea sec:authorize="isAnonymous()" disabled
+                  th:field="*{content}" class="form-control" rows="10"></textarea>
+        <textarea sec:authorize="isAuthenticated()"
+                  th:field="*{content}" class="form-control" rows="10"></textarea>
         <input type="submit" value="답변 등록" class="btn btn-primary my-2">
     </form>
 </div>
