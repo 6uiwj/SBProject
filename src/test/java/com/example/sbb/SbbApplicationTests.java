@@ -151,7 +151,7 @@ class SbbApplicationTests {
 			//[%03d]: 제목에 번호를 부여 -> 세 자리 포맷, 빈 자리에 왼쪽부터 0을 채움 (001, 013, 213...)
 			String subject = String.format("테스트 데이터입니다:[%03d]", i);
 			String content = "내용 없음 ";
-			this.questionService.create(subject, content);
+			this.questionService.create(subject, content, null);
 		}
 
 	}

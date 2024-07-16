@@ -1,6 +1,8 @@
 package com.example.sbb.question;
 
 import com.example.sbb.answer.AnswerForm;
+import com.example.sbb.user.SiteUser;
+import com.example.sbb.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -8,6 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
+
 @Controller
 @RequestMapping("/question") //프리픽스 설정 (URL 접두사)
 @RequiredArgsConstructor //final이 붙은 속성을 포험하는 생성자를 자동으로 만들어 줌 (자동의존주입 - 생성자 방식)
@@ -15,6 +20,7 @@ public class QuestionController {
 
     //private final QuestionRepository questionRepository; //서비스 생성 전
     private final QuestionService questionService;
+    private final UserService userService;
 
     /**
      * 목록 조회 메서드
@@ -92,12 +98,13 @@ public class QuestionController {
      */
     //@Valid : QuestionForm의 검증 기능 동작(@Size @NotEmpty 등..)
     @PostMapping("/create")
-    public String questionCreate(@Valid QuestionForm questionForm, BindingResult bindingResult) {
+    public String questionCreate(@Valid QuestionForm questionForm, BindingResult bindingResult, Principal principal) {
         if (bindingResult.hasErrors()) { //검증 결과에 error가 있으면 다시 작성 화면으로 돌아감
             return "question_form";
         }
+        SiteUser siteUser = this.userService.getUser(principal.getName());
         //오류가 없으면 등록
-        this.questionService.create(questionForm.getSubject(), questionForm.getContent());
+        this.questionService.create(questionForm.getSubject(), questionForm.getContent(), siteUser);
         return "redirect:/question/list";
     }
 
