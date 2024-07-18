@@ -6,11 +6,13 @@ import com.example.sbb.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 
@@ -109,6 +111,58 @@ public class QuestionController {
         //오류가 없으면 등록
         this.questionService.create(questionForm.getSubject(), questionForm.getContent(), siteUser);
         return "redirect:/question/list";
+    }
+
+    /**
+     * 질문 수정하기 - 수정할 질문 조회
+     * @param questionForm
+     * @param id
+     * @param principal
+     * @return
+     */
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/modify/{id}")
+    public String questionModify(QuestionForm questionForm, @PathVariable("id")
+                                 Integer id, Principal principal) {
+        //id로 질문 조회
+        Question question = this.questionService.getQuestion(id);
+        //현재 로그인한 사용자와 질문의 작성자가 동일하지 않은 경우 오류 발생
+        if(!question.getAuthor().getUsername().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
+        }
+        //제목과 내용을 담아 question_form 템플릿에 전달
+        questionForm.setSubject(question.getSubject());
+        questionForm.setContent(question.getContent());
+        return "question_form";
+    }
+
+    /**
+     * 질문 수정, 저장
+     * @param questionForm
+     * @param bindingResult
+     * @param principal
+     * @param id
+     * @return
+     */
+    @PreAuthorize("isAuthenticated()") //로그인 상태인지 확인
+    @PostMapping("/modify/{id}")
+    public String questionModify(@Valid QuestionForm questionForm, BindingResult
+                                 bindingResult, Principal principal, @PathVariable("id") Integer id) {
+        //questionForm 커맨드 객체 검증 결과에 에러가 있다면 다시 폼 반환
+        if (bindingResult.hasErrors()) {
+            return "question_form";
+        }
+        //id로 질문 조회
+        Question question = this.questionService.getQuestion(id);
+        //글쓴이와 로그인한 사용자가 같지 않다면 에러
+        if (!question.getAuthor().getUsername().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
+
+        }
+        //일치한다면 서비스의 modify 메서드로 내용 수정
+        this.questionService.modify(question, questionForm.getSubject(), questionForm.getContent());
+        //수정 완료 후 리다이렉트 할 페이지
+        return String.format("redirect:/question/detail/%s", id);
     }
 
 }
