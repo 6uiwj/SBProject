@@ -82,4 +82,11 @@ public class QuestionService {
         this.questionRepository.save(question);
     }
 
+    /**
+     * 게시글 삭제
+     * @param question
+     */
+    public void delete(Question question) {
+        this.questionRepository.delete(question);
+    }
 }
