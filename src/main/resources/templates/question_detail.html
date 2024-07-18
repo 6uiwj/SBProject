@@ -21,6 +21,16 @@
                         'yyyy-MM-dd HH:mm')}"></div>
                     </div>
                 </div>
+            <!--질문 id별 수정 링크, 로그인 상태일 때
+                     질문자가 존재하고, 로그인한 ID와 질문자 ID가 일치한다면 수정 출력
+                     #authentication.getPrincipal() : 타임리프에서 스프링 시큐리티와 함께 사용하는 표현식 -->
+            <div class="my-3">
+                <a th:href="@{|/question/modify/${question.id}|}" class="btn btn-sm btn-outline-secondary"
+                   sec:authorize="isAuthenticated()"
+                   th:if="${question.author != null and #authentication.
+                        getPrincipal().getUsername() == question.author.username}"
+                        th:text="수정"></a>
+            </div>
             </div>
         </div>
 
@@ -46,20 +56,10 @@
                             'yyyy-MM-dd HH:mm')}"></div>
                     </div>
                 </div>
-                <div class="my-3">
-                    <!--질문 id별 수정 링크, 로그인 상태일 때
-                        질문자가 존재하고, 로그인한 ID와 질문자 ID가 일치한다면 수정 출력
-                        #authentication.getPrincipal() : 타임리프에서 스프링 시큐리티와 함께 사용하는 표현식 -->
-                    <a th:href="@{|/question/modify/${question.id}|}"
-                       class="btn btn-smbtn-outline-secondary"
-                       sec:authorize="isAuthenticated()"
-                       th:if="${question.author != null and #authentication.
-                        getPrincipal().getUsername() == question.author.username}"
-                       th:text="수정"></a>
-                </div>
+
                 </div>
              </div>
-        </div>
+
     <!--답변 반복 끝-->
 
     <!--답변 등록 창과 등록 버튼 생성-->
