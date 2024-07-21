@@ -36,6 +36,11 @@ public class UserService {
         return user;
     }
 
+    /**
+     * 회원(SiteUser) 조회
+     * @param username
+     * @return
+     */
     public SiteUser getUser(String username) {
         Optional<SiteUser> siteUser = this.userRepository.findByUsername(username);
         if(siteUser.isPresent()) { //siteUser에 데이터가 있으면 가져온다.

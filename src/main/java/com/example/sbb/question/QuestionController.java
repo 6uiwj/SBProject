@@ -185,4 +185,19 @@ public class QuestionController {
         return "redirect:/";
     }
 
+    /**
+     * [추천]버튼을 눌렀을 때 GET 방식으로 호출
+     * @param principal
+     * @param id
+     * @return
+     */
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/vote/{id}")
+    public String questionVote(Principal principal, @PathVariable("id") Integer id) {
+        Question question =this.questionService.getQuestion(id); //id로 질문 조회
+        SiteUser siteUser = this.userService.getUser(principal.getName()); //사용자 아이디를 가져와 siteUser객체에 담음
+        this.questionService.vote(question,siteUser); //추천인에 저장
+        return String.format("redirect:/question/detail/%s", id); //질문 상세화면으로 리다이렉트
+    }
+
 }
