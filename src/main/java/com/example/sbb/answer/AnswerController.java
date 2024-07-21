@@ -97,4 +97,24 @@ public class AnswerController {
         //수정 완료 후 리다이렉트 할 페이지
         return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
     }
+
+    /**
+     * 답변 삭제
+     * @param principal
+     * @param id
+     * @return
+     */
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/delete/{id}")
+    public String answerDelete(Principal principal, @PathVariable("id") Integer id) {
+        Answer answer = this.answerService.getAnswer(id);
+        if (!answer.getAuthor().getUsername().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");
+
+        }
+        this.answerService.delete(answer);
+        //삭제 후 질문 상세 화면으로 이동
+        return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
+
+    }
 }
