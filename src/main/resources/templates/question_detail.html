@@ -12,15 +12,15 @@
                  th:text="${question.content}"></div>
             <div class="d-flex justify-content-end">
                 <div class="badge bg-light text-dark p-2 text-start">
-                    <!--글쓴이가 존재하면 글쓴이를 표시-->
-                    <div class="mb-2">
-                        <span th:if="${question.author !=null}"
-                              th:text="${question.author.username}"></span>
-                    </div>
-                   <div th:text="${#temporals.format(question.createDate,
-                        'yyyy-MM-dd HH:mm')}"></div>
-                    </div>
+                        <!--글쓴이가 존재하면 글쓴이를 표시-->
+                        <div class="mb-2">
+                            <span th:if="${question.author !=null}"
+                                  th:text="${question.author.username}"></span>
+                        </div>
+                       <div th:text="${#temporals.format(question.createDate,
+                            'yyyy-MM-dd HH:mm')}"></div>
                 </div>
+            </div>
             <!--질문 id별 수정 링크, 로그인 상태일 때
                      질문자가 존재하고, 로그인한 ID와 질문자 ID가 일치한다면 수정 출력
                      #authentication.getPrincipal() : 타임리프에서 스프링 시큐리티와 함께 사용하는 표현식 -->
@@ -44,9 +44,10 @@
                    th:if="${question.author != null and
                    #authentication.getPrincipal().getUsername() == question.author.username}"
                    th:text="삭제"></a>
-            </div>
+
             </div>
         </div>
+    </div>
 
         <!--답변 개수 표시-->
         <!--#lists.size: 타임리프에서 제공하는 기능으로 해당 객체의 길이 반환
@@ -58,27 +59,30 @@
         <div class = "card my-3" th:each="answer : ${question.answerList}">
             <div class="card-body">
                 <div class="card-text" style="white=space: pre-line;"
-                     th:text="${answer.content}"></div>
+                     th:text="${answer.content}">
+                </div>
                 <div class="d-flex justify-content-end">
                     <div class="badge bg-light text-dark p-2 text-start">
                         <div class="mb-2">
                             <!--글쓴이가 있으면 글쓴이 표시-->
                             <span th:if="${answer.author !=null}"
-                                  th:text="${answer.author.username}"></span>
+                                  th:text="${answer.author.username}">
+                            </span>
                         </div>
                         <div th:text="${#temporals.format(answer.createDate,
-                            'yyyy-MM-dd HH:mm')}"></div>
+                            'yyyy-MM-dd HH:mm')}">
+                        </div>
                     </div>
                 </div>
+                <!--답변 작성자와 로그인 사용자가 일치할 경우 '수정'버튼 노출 -->
                 <div class="my-3">
                     <a th:href="@{|/answer/modify/${answer.id}|}" class="btn btn-sm btn-outline-secondary"
                        sec:authorize="isAuthenticated()"
                        th:if="${answer.author != null and #authentication.getPrincipal().getUsername() == answer.author.username}"
                        th:text="수정"></a>
                 </div>
-                </div>
-                </div>
-             </div>
+            </div>
+        </div>
 
     <!--답변 반복 끝-->
 
@@ -92,7 +96,8 @@
         </div>
         -->
         <!--공통 에러 템플릿으로 대체 th:replace-->
-        <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+        <div th:replace="~{form_errors :: formErrorsFragment}">
+        </div>
 
         <!--답변 입력 칸 - 미 로그인 시 입력불가
             로그인 상태 체크
