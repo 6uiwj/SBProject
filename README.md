@@ -7,7 +7,7 @@
   ![image](https://github.com/user-attachments/assets/2b9c1dd8-3227-402a-bec6-0f5656e846e6)
  <br> <br> <br>
 
-- 회원가입(Sign Up) <br>
+- 회원가입(Create an account) <br>
   ![image](https://github.com/user-attachments/assets/82912199-70ac-4530-bae7-454bbff39d05)
 
  <br> <br>
@@ -44,15 +44,16 @@
 - 검색 기능
   
 
-## ver.2에 추가할 기능
-- 로그인 시에는 회원가입 버튼이 안보이게
-- CSS 커스텀
-- 댓글 기능
-- 게시판 카테고리
-- 비밀번호 찾기/변경
-- 조회 수 표시
-- 소셜로그인
-- 마크다운 에디터 
+## ver.2에 추가할 기능 (Features to be added to Ver.2)
+
+- 로그인 시에는 회원가입 버튼이 안보이게(Hide the 'Sign up" button when logged in)
+- CSS 커스텀 (CSS)
+- 댓글 기능 (Comment function)
+- 게시판 카테고리 (Bulletin Board Category)
+- 비밀번호 찾기/변경 (Find/Change Password)
+- 조회 수 표시 (Mark views)
+- 소셜로그인 (Social Login Function)
+- 마크다운 에디터 (Markdown Editor) 
 
 <hr>
 
