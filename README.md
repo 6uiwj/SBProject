@@ -1,6 +1,7 @@
 # 게시판 만들기 PROJECT 240623~
 (Bulletin Board Java Project 240623~)
-##현재 기능
+
+## 현재 기능
 - 로그인/로그아웃
 - 회원가입
 - 게시글 작성
