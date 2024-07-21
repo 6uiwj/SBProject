@@ -3,6 +3,9 @@
       layout:decorate="~{layout}"> <!--레이아웃으로 사용할 부모템플릿 지정(layout.html)--><link rel = "stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
 
 <div layout:fragment="content" class = "container my-3">
+
+
+
     <!--질문-->
     <h2 class="border-bottom py-2" th:text="${question.subject}"></h2>
     <div class="card my-3">
@@ -34,6 +37,18 @@
                      질문자가 존재하고, 로그인한 ID와 질문자 ID가 일치한다면 수정 출력
                      #authentication.getPrincipal() : 타임리프에서 스프링 시큐리티와 함께 사용하는 표현식 -->
             <div class="my-3">
+                    <!--추천 버튼-->
+                    <!--javascript:void(0) : 클릭 시 아무동작도 하지 않음
+                        실제 주소는 th:data-uri에 의해 설정 -> 클릭 시 메시지 팝업창 뜨도록
+                        [추천]버튼을 수정 버튼 왼쪽에 추가 -->
+                    <a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary"
+                       th:data-uri="@{|/question/vote/${question.id}|}">
+                        추천
+                        <!--lists.size에 question.voter를 사용하여 추천 수 노출-->
+                    <span class="badge rounded-pill bg-success"
+                       th:text="${#lists.size(question.voter)}"></span>
+                    </a>
+
                 <a th:href="@{|/question/modify/${question.id}|}" class="btn btn-sm btn-outline-secondary"
                    sec:authorize="isAuthenticated()"
                    th:if="${question.author != null and #authentication.
@@ -57,6 +72,9 @@
             </div>
         </div>
     </div>
+
+
+
 
         <!--답변 개수 표시-->
         <!--#lists.size: 타임리프에서 제공하는 기능으로 해당 객체의 길이 반환
@@ -92,8 +110,18 @@
                     </div>
                 </div>
 
-                <!--답변 수정과 삭제 -->
                 <div class="my-3">
+                    <!--클릭해도 아무 작동도 하지 않음
+                        uri에 의해 주소 결정 -->
+                    <a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary"
+                       th:data-uri="@{|/answer/vote/${answer.id}|}">
+                        추천
+                        <!--추천인 수 노출-->
+                        <span class="badge rounded-pill bg-success"
+                              th:text="${#lists.size(answer.voter)}"></span>
+                    </a>
+
+                    <!--답변 수정과 삭제 -->
                     <!--답변 작성자와 로그인 사용자가 일치할 경우 '수정'버튼 노출 -->
                     <a th:href="@{|/answer/modify/${answer.id}|}" class="btn btn-sm btn-outline-secondary"
                        sec:authorize="isAuthenticated()"
@@ -113,6 +141,7 @@
         </div>
 
     <!--답변 반복 끝-->
+
 
     <!--답변 등록 창과 등록 버튼 생성-->
     <!--답변 등록시 URL : /answer/create/질문데이터 번호-->
@@ -139,7 +168,9 @@
     </form>
 </div>
 
-<!--자바스크립트 - 삭제기능 -->
+
+
+<!--자바스크립트 - 삭제기능 / 추천기능 -->
 <script layout:fragment="script" type='text/javascript'>
     const delete_elements = document.getElementsByClassName("delete");
     Array.from(delete_elements).forEach(function(element) {
@@ -149,5 +180,17 @@
                 };
         });
     });
+
+    //[추천]버튼에 recommend 클래스가 적용되어 있으므로 [추천]버튼을 클릭하면 '정말로 추천하시겠습니까?'
+    //라는 메시지가 담긴 팝업창이 뜨고, [확인]을 누르면 data-uri 속성에 정의한 URL이 호출
+    const recommend_elements = document.getElementsByClassName("recommend");
+    Array.from(recommend_elements).forEach(function(element) {
+        element.addEventListener('click', function() {
+            if(confirm("정말로 추천하시겠습니까?")) {
+                location.href = this.dataset.uri;
+            };
+        });
+    });
+
 </script>
 </html>

@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Entity //스프링 부트가 Question 클래스를 엔티티로 인식
 @Getter
@@ -36,4 +37,9 @@ public class Question {
     private SiteUser author;
 
     private LocalDateTime modifyDate; //수정 일시
+
+    //하나의 질문에 여러 사람 추천 가능, 한 사람이 여러 개 질문에 추천 가능
+    //voter 속성 값이 서로 중복되지 않도록 Set 자료형 선택
+    @ManyToMany
+    Set<SiteUser> voter; //추천인
 }

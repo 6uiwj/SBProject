@@ -56,4 +56,14 @@ public class AnswerService {
     public void delete(Answer answer) {
         this.answerRepository.delete(answer);
     }
+
+    /**
+     * 추천한 사람 저장
+     * @param answer
+     * @param siteUser
+     */
+    public void vote(Answer answer, SiteUser siteUser) {
+        answer.getVoter().add(siteUser); //siteUser를 가져와 answer엔티티의 voter에 담음
+        this.answerRepository.save(answer);
+    }
 }

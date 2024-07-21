@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -29,4 +30,9 @@ public class Answer {
     private SiteUser author;
 
     private LocalDateTime modifyDate; //수정 일시
+
+    //하나의 답변에 여러 사람 추천 가능, 한 사람이 여러 개 답변에 추천 가능
+    //voter 속성 값이 서로 중복되지 않도록 Set 자료형 선택
+    @ManyToMany
+    Set<SiteUser> voter;
 }

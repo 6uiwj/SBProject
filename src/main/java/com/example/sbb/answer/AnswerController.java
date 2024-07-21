@@ -117,4 +117,19 @@ public class AnswerController {
         return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
 
     }
+
+    /**
+     * 답변 추천한 사람 저장
+     * @param principal
+     * @param id
+     * @return
+     */
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/vote/{id}")
+    public String answerVote(Principal principal, @PathVariable("id") Integer id) {
+        Answer answer = this.answerService.getAnswer(id); //id로 답변 조회
+        SiteUser siteUser = this.userService.getUser(principal.getName()); //로그인한 사용자를 사이트 유저목록에서 조회하여 siteUser 객체에 담음
+        this.answerService.vote(answer, siteUser); //추천한 사람 저장
+        return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
+    }
 }
