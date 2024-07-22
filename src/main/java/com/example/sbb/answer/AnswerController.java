@@ -47,9 +47,11 @@ public class AnswerController {
             model.addAttribute("question", question);
             return "question_detail";
         }
-
-        this.answerService.create(question, answerForm.getContent(), siteUser); //답변 등록 서비스 추가
-        return String.format("redirect:/question/detail/%s",id);
+        //앵커 기능 이용위해 Answer 객체에 담기
+        Answer answer = this.answerService.create(question, answerForm.getContent(), siteUser);
+        //#answer_%s를 이용해 앵커 추가
+        return String.format("redirect:/question/detail/%s#answer_%s",
+                answer.getQuestion().getId(), answer.getId());
     }
 
     /**
@@ -95,7 +97,8 @@ public class AnswerController {
         //일치한다면 서비스의 modify 메서드로 내용 수정
         this.answerService.modify(answer, answerForm.getContent());
         //수정 완료 후 리다이렉트 할 페이지
-        return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
+        return String.format("redirect:/question/detail/%s#answer_%s",
+                answer.getQuestion().getId(), answer.getId());
     }
 
     /**
@@ -130,6 +133,7 @@ public class AnswerController {
         Answer answer = this.answerService.getAnswer(id); //id로 답변 조회
         SiteUser siteUser = this.userService.getUser(principal.getName()); //로그인한 사용자를 사이트 유저목록에서 조회하여 siteUser 객체에 담음
         this.answerService.vote(answer, siteUser); //추천한 사람 저장
-        return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
+        return String.format("redirect:/question/detail/%s#answer_%s",
+                answer.getQuestion().getId(), answer.getId());
     }
 }
