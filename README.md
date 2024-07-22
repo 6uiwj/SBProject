@@ -1,5 +1,5 @@
-# 게시판 만들기 PROJECT 240623~
-(Bulletin Board Java Project 240623~)
+# 게시판 만들기 PROJECT 240623~240722
+(Bulletin Board Java Project 240623~240722)
 
 ## 현재 기능(Features developed)
 
@@ -39,10 +39,12 @@
   ![image](https://github.com/user-attachments/assets/2af9d2e3-8f26-4ed2-a8f2-4e3cc9879940)
 
  <br> <br>
-- 앵커 기능
+- 앵커 기능(사진 생략)
 
-- 검색 기능
-  
+- 검색 기능(검색 대상: 질문 제목, 질문 내용, 질문 작성자, 답변 내용, 답변 작성자) (Search Function(Search target: Question subject, Question Content, Question Author, Answer content, Answer Author))
+![image](https://github.com/user-attachments/assets/b39ae539-bad5-4c62-83d3-3433fd880656)
+![image](https://github.com/user-attachments/assets/0ff317b2-a475-4c86-8f76-6bc7e39f52f3)
+
 
 ## ver.2에 추가할 기능 (Features to be added to Ver.2)
 
