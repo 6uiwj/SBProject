@@ -75,6 +75,7 @@ public class QuestionController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
     public String questionCreate(QuestionForm questionForm) {
+
         return "question_form";
     }
 
@@ -105,6 +106,7 @@ public class QuestionController {
      * @return
      */
     //@Valid : QuestionForm의 검증 기능 동작(@Size @NotEmpty 등..)
+    //@PreAuthorize("hasRole('ROLE_ADMIN')") - admin으로 로그인한 경우만 게시글 작성
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
     public String questionCreate(@Valid QuestionForm questionForm, BindingResult bindingResult, Principal principal) {
