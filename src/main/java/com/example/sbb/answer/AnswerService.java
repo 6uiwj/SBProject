@@ -15,13 +15,22 @@ import java.util.Optional;
 public class AnswerService {
     private final AnswerRepository answerRepository;
 
-    public void create(Question question, String content, SiteUser author) {
+
+    /**
+     * 답변 생성  - 답변이 등록된 위치로 이동하기 위해(앵커 기능) Answer 객체 리턴
+     * @param question
+     * @param content
+     * @param author
+     * @return
+     */
+    public Answer create(Question question, String content, SiteUser author) {
         Answer answer = new Answer(); //Answer 객체 생성
         answer.setContent(content);
         answer.setCreateDate(LocalDateTime.now());
         answer.setQuestion(question);
         answer.setAuthor(author);
         this.answerRepository.save(answer); //저장
+        return answer;
     }
 
     /**
