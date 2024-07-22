@@ -25,24 +25,28 @@ public class QuestionController {
     private final QuestionService questionService;
     private final UserService userService;
 
+
     /**
      * 목록 조회 메서드
      * @param model
      * @param page @RequestParam : 웹 요청 파라미터를 컨트롤러 메서드의 매개변수로 바인딩
-     *                             주로 http 요청의 쿼리 파라미터나 폼 데이터를 가져오는데 사용
-     *                              ex) http://localhost..../question/list?page=0 에서 page 값을 가져 옴
-     *                  defaultValue = "0" : url에 매개변수로 page가 전달되지 않은 경우 기본값은 0이 되도록 설정
+     *      *                      주로 http 요청의 쿼리 파라미터나 폼 데이터를 가져오는데 사용
+     *      *                      ex) http://localhost..../question/list?page=0 에서 page 값을 가져 옴
+     *      *       defaultValue = "0" : url에 매개변수로 page가 전달되지 않은 경우 기본값은 0이 되도록 설정
+     * @param kw 검색 키워드 , 기본값으로 빈 문자열 설정
      * @return
      */
     @GetMapping("/list")
-    public String list(Model model, @RequestParam(value="page", defaultValue = "0") int page) { //데이터를 저장할 Model 객체를 매개변수로 지정
+    public String list(Model model, @RequestParam(value="page", defaultValue = "0") int page,
+                       @RequestParam(value="kw", defaultValue = "") String kw) { //데이터를 저장할 Model 객체를 매개변수로 지정
         /**
          * Model : 자바 객체와 템플릿 간 연결 고리 역할
          *          Model 객체를 따로 생성할 필요 없이 매개변수로 지정하면 스프링 부트가 자동으로 Model 객체 생성
          */
         //List<Question> questionList = this.questionRepository.findAll(); //질문 목록을 전부 조회해 questionList에 담음
-        Page<Question> paging = this.questionService.getList(page); //서비스를 통해 질문 목록 조회
+        Page<Question> paging = this.questionService.getList(page, kw); //서비스를 통해 질문 목록 조회
         model.addAttribute("paging", paging);
+        model.addAttribute("kw", kw); //입력한 검색어 화면에 유지
         return "question_list";
     }
 
