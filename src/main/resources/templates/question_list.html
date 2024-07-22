@@ -6,6 +6,21 @@
 -->
 <!--layout.html의 th:block에 들어갈 내용 -->
 <div layout:fragment="content" class = "container my-3">
+    <!--검색 창 만들기-->
+    <div class="row my-3">
+        <div class="col-6">
+            <!--질문 등록 버튼 생성-->
+            <a th:href="@{/question/create}" class="btn btn-primary">질문 등록하기</a>
+        </div>
+        <div class="col-6">
+            <div class="input-group">
+                <!--자바스크립트에서 검색창 입력값을 읽을 수 있도록 id 속성에 'search_kw' 추가 -->
+                <input type="text" id="search_kw" class="form-control" th:value="${kw}">
+                <button class="btn btn-outline-secondary" type="button" id="btn_search">찾기</button>
+            </div>
+        </div>
+    </div>
+
 <table class = "table">
     <thead class="table-dark">
         <tr class="text-center">
@@ -62,7 +77,8 @@
                                        즉, {} 안의 내용은 단순 문자열로 처리
                                        여기서는 쿼리 파라미터를 포함한 URL을 생성하고 있다.-->
                 <!--이전 링크를 누르면 '현재페이지-1' 페이지로 이동한다. -->
-                <a class="page-link" th:href="@{|?page=${paging.number-1}|}">
+                <a class="page-link" href="javascript:void(0)"
+                th:data-page="${paging.number-1}">
                     <span>이전</span>
                 </a>
             </li>
@@ -76,12 +92,13 @@
             <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
                 th:if="${page >= paging.number-5 and page <= paging.number+5}"
                 th:classappend="${page==paging.number} ? 'active'" class="page-item">
-                <a th:text="${page}" class="page-link"
-                th:href="@{|?page=${page}|}"></a>
+                <a th:text="${page}" class="page-link" href="javascript:void(0)"
+                th:data-page="${page}"></a>
             </li>
             <!--다음 페이지가 없을 경우 '다음' 링크 비활성화 -->
             <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
-                <a class = "page-link" th:href="@{|?page=${paging.number+1}|}">
+                <a class = "page-link" href="javascript:void(0)"
+                th:data-page="${paging.number+1}">
                     <span>다음</span>
                 </a>
             </li>
@@ -90,7 +107,33 @@
     </div>
     <!--페이징 처리 끝-->
 
-    <!--질문 등록 버튼 생성-->
-    <a th:href="@{/question/create}" class="btn btn-primary">질문 등록하기</a>
+    <!--검색 폼 만들기-->
+    <!--page와 kw를 동시에 GET방식으로 요청하기 위해 다음 추가-->
+    <!--kw, page 요청 값을 기억하기 위해 value로 값을 유지 (컨트롤러로부터 다시 값을 전달받음)-->
+    <form th:action="@{/question/list}" method="get" id="searchForm">
+        <input type="hidden" id="kw" name="kw" th:value="${kw}">
+        <input type="hidden" id="page" name="page" th:value="${paging.number}">
+    </form>
 </div>
+
+<!--검색 스크립트-->
+<script layout:fragment="script" type='text/javascript'>
+    //class = 'page-link'인 페이지 링크를 질문 목록 화면에서 클릭하면
+    //이 링크의 'data-page' 속성 값을읽어 serarchForm의 page 필드에 설정하여 searchForm을 요청
+    const page_elements = document.getElementsByClassName("page-link");
+    Array.from(page_elements).forEach(function(element) {
+        element.addEventListener('click', function() {
+            document.getElementById('page').value = this.dataset.page;
+            document.getElementById('searchForm').submit();
+        });
+    });
+
+    //[검색] 버튼을 클릭하면 검색창에 입력된 값을 searchForm의 kw필드에 설정하여 searchForm을 요청
+    const btn_search = document.getElementById("btn_search");
+    btn_search.addEventListener('click', function() {
+        document.getElementById('kw').value = document.getElementById('search_kw').value;
+        document.getElementById('page').value = 0; //검색 버튼을 클릭할 경우 0페이지부터 조회
+        document.getElementById('searchForm').submit();
+    });
+</script>
 </html>
