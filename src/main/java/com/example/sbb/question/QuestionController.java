@@ -43,7 +43,9 @@ public class QuestionController {
          * Model : 자바 객체와 템플릿 간 연결 고리 역할
          *          Model 객체를 따로 생성할 필요 없이 매개변수로 지정하면 스프링 부트가 자동으로 Model 객체 생성
          */
-        //List<Question> questionList = this.questionRepository.findAll(); //질문 목록을 전부 조회해 questionList에 담음
+        //Question 객체들을 담는 List 생성 (findAll: Question엔티티의 행을 전부 가져옴)
+        //List<Question> questionList = this.questionRepository.findAll();
+        // 질문 목록을 전부 조회해 questionList에 담음
         Page<Question> paging = this.questionService.getList(page, kw); //서비스를 통해 질문 목록 조회
         model.addAttribute("paging", paging);
         model.addAttribute("kw", kw); //입력한 검색어 화면에 유지
